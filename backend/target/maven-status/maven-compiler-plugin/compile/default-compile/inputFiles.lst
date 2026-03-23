@@ -1,2 +1,5 @@
 /Users/sedefkoc/Desktop/EnerjiTahminSistemiFrontend/backend/src/main/java/com/enerjitahmin/backend/BackendApplication.java
 /Users/sedefkoc/Desktop/EnerjiTahminSistemiFrontend/backend/src/main/java/com/enerjitahmin/backend/TestController.java
+/Users/sedefkoc/Desktop/EnerjiTahminSistemiFrontend/backend/src/main/java/com/enerjitahmin/backend/config/DataInitializer.java
+/Users/sedefkoc/Desktop/EnerjiTahminSistemiFrontend/backend/src/main/java/com/enerjitahmin/backend/entity/User.java
+/Users/sedefkoc/Desktop/EnerjiTahminSistemiFrontend/backend/src/main/java/com/enerjitahmin/backend/repository/UserRepository.java
