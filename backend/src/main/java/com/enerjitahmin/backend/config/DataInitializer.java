@@ -13,9 +13,61 @@ public class DataInitializer {
     CommandLineRunner initUsers(UserRepository userRepository) {
         return args -> {
             if (userRepository.count() == 0) {
-                userRepository.save(new User("operator1", "1234", "Ahmet Yılmaz", "TESIS_GOREVLISI"));
-                userRepository.save(new User("manager1", "1234", "Ayşe Demir", "TESIS_YONETICISI"));
-                userRepository.save(new User("executive1", "1234", "Mehmet Kaya", "UST_YONETICI"));
+                userRepository.save(new User(
+                        "Ahmet",
+                        "Yılmaz",
+                        "operator1",
+                        "1234",
+                        "ahmet.yilmaz@example.com",
+                        "05550000001",
+                        "TESIS_GOREVLISI",
+                        "GES",
+                        "İç Anadolu",
+                        "GES Konya 1",
+                        true
+                ));
+
+                userRepository.save(new User(
+                        "Ayşe",
+                        "Demir",
+                        "manager1",
+                        "1234",
+                        "ayse.demir@example.com",
+                        "05550000002",
+                        "TESIS_YONETICISI",
+                        "GES",
+                        "İç Anadolu",
+                        "GES Konya 1",
+                        true
+                ));
+
+                userRepository.save(new User(
+                        "Mehmet",
+                        "Kaya",
+                        "region1",
+                        "1234",
+                        "mehmet.kaya@example.com",
+                        "05550000003",
+                        "BOLGE_YONETICISI",
+                        "GES",
+                        "İç Anadolu",
+                        null,
+                        true
+                ));
+
+                userRepository.save(new User(
+                        "Zeynep",
+                        "Acar",
+                        "executive1",
+                        "1234",
+                        "zeynep.acar@example.com",
+                        "05550000004",
+                        "UST_YONETICI",
+                        "GES",
+                        null,
+                        null,
+                        true
+                ));
             }
         };
     }
