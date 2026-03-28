@@ -1,6 +1,8 @@
 /Users/sedefkoc/Desktop/EnerjiTahminSistemiFrontend/backend/src/main/java/com/enerjitahmin/backend/BackendApplication.java
 /Users/sedefkoc/Desktop/EnerjiTahminSistemiFrontend/backend/src/main/java/com/enerjitahmin/backend/TestController.java
 /Users/sedefkoc/Desktop/EnerjiTahminSistemiFrontend/backend/src/main/java/com/enerjitahmin/backend/config/DataInitializer.java
+/Users/sedefkoc/Desktop/EnerjiTahminSistemiFrontend/backend/src/main/java/com/enerjitahmin/backend/controller/AlarmController.java
+/Users/sedefkoc/Desktop/EnerjiTahminSistemiFrontend/backend/src/main/java/com/enerjitahmin/backend/controller/ProductionRecordController.java
 /Users/sedefkoc/Desktop/EnerjiTahminSistemiFrontend/backend/src/main/java/com/enerjitahmin/backend/entity/Alarm.java
 /Users/sedefkoc/Desktop/EnerjiTahminSistemiFrontend/backend/src/main/java/com/enerjitahmin/backend/entity/Facility.java
 /Users/sedefkoc/Desktop/EnerjiTahminSistemiFrontend/backend/src/main/java/com/enerjitahmin/backend/entity/ProductionRecord.java
