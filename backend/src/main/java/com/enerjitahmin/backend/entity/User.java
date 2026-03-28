@@ -32,9 +32,13 @@ public class User {
     @Column(nullable = false)
     private String plantType;
 
-    private String regionName;
+    @ManyToOne
+    @JoinColumn(name = "region_id")
+    private Region region;
 
-    private String facilityName;
+    @ManyToOne
+    @JoinColumn(name = "facility_id")
+    private Facility facility;
 
     @Column(nullable = false)
     private boolean active;
@@ -44,7 +48,7 @@ public class User {
 
     public User(String firstName, String lastName, String username, String password,
                 String email, String phone, String role, String plantType,
-                String regionName, String facilityName, boolean active) {
+                Region region, Facility facility, boolean active) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
@@ -53,8 +57,8 @@ public class User {
         this.phone = phone;
         this.role = role;
         this.plantType = plantType;
-        this.regionName = regionName;
-        this.facilityName = facilityName;
+        this.region = region;
+        this.facility = facility;
         this.active = active;
     }
 
@@ -126,20 +130,20 @@ public class User {
         this.plantType = plantType;
     }
 
-    public String getRegionName() {
-        return regionName;
+    public Region getRegion() {
+        return region;
     }
 
-    public void setRegionName(String regionName) {
-        this.regionName = regionName;
+    public void setRegion(Region region) {
+        this.region = region;
     }
 
-    public String getFacilityName() {
-        return facilityName;
+    public Facility getFacility() {
+        return facility;
     }
 
-    public void setFacilityName(String facilityName) {
-        this.facilityName = facilityName;
+    public void setFacility(Facility facility) {
+        this.facility = facility;
     }
 
     public boolean isActive() {

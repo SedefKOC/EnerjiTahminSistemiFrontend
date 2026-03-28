@@ -1,6 +1,10 @@
 package com.enerjitahmin.backend.config;
 
+import com.enerjitahmin.backend.entity.Facility;
+import com.enerjitahmin.backend.entity.Region;
 import com.enerjitahmin.backend.entity.User;
+import com.enerjitahmin.backend.repository.FacilityRepository;
+import com.enerjitahmin.backend.repository.RegionRepository;
 import com.enerjitahmin.backend.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -10,9 +14,68 @@ import org.springframework.context.annotation.Configuration;
 public class DataInitializer {
 
     @Bean
-    CommandLineRunner initUsers(UserRepository userRepository) {
+    CommandLineRunner initData(UserRepository userRepository,
+                               RegionRepository regionRepository,
+                               FacilityRepository facilityRepository) {
         return args -> {
+
+            if (regionRepository.count() == 0) {
+                regionRepository.save(new Region("İç Anadolu", "GES"));
+                regionRepository.save(new Region("Ege", "GES"));
+                regionRepository.save(new Region("Karadeniz", "HES"));
+                regionRepository.save(new Region("Akdeniz", "HES"));
+            }
+
+            if (facilityRepository.count() == 0) {
+                Region icAnadoluGes = regionRepository.findAll().stream()
+                        .filter(region -> region.getName().equals("İç Anadolu") && region.getPlantType().equals("GES"))
+                        .findFirst()
+                        .orElse(null);
+
+                Region egeGes = regionRepository.findAll().stream()
+                        .filter(region -> region.getName().equals("Ege") && region.getPlantType().equals("GES"))
+                        .findFirst()
+                        .orElse(null);
+
+                Region karadenizHes = regionRepository.findAll().stream()
+                        .filter(region -> region.getName().equals("Karadeniz") && region.getPlantType().equals("HES"))
+                        .findFirst()
+                        .orElse(null);
+
+                Region akdenizHes = regionRepository.findAll().stream()
+                        .filter(region -> region.getName().equals("Akdeniz") && region.getPlantType().equals("HES"))
+                        .findFirst()
+                        .orElse(null);
+
+                if (icAnadoluGes != null) {
+                    facilityRepository.save(new Facility("GES Konya 1", "GES", icAnadoluGes, true));
+                    facilityRepository.save(new Facility("GES Aksaray 1", "GES", icAnadoluGes, true));
+                }
+
+                if (egeGes != null) {
+                    facilityRepository.save(new Facility("GES İzmir 1", "GES", egeGes, true));
+                }
+
+                if (karadenizHes != null) {
+                    facilityRepository.save(new Facility("Baraj A", "HES", karadenizHes, true));
+                }
+
+                if (akdenizHes != null) {
+                    facilityRepository.save(new Facility("Baraj B", "HES", akdenizHes, true));
+                }
+            }
+
             if (userRepository.count() == 0) {
+                Region icAnadoluGes = regionRepository.findAll().stream()
+                        .filter(region -> region.getName().equals("İç Anadolu") && region.getPlantType().equals("GES"))
+                        .findFirst()
+                        .orElse(null);
+
+                Facility gesKonya1 = facilityRepository.findAll().stream()
+                        .filter(facility -> facility.getName().equals("GES Konya 1"))
+                        .findFirst()
+                        .orElse(null);
+
                 userRepository.save(new User(
                         "Ahmet",
                         "Yılmaz",
@@ -22,8 +85,8 @@ public class DataInitializer {
                         "05550000001",
                         "TESIS_GOREVLISI",
                         "GES",
-                        "İç Anadolu",
-                        "GES Konya 1",
+                        icAnadoluGes,
+                        gesKonya1,
                         true
                 ));
 
@@ -36,8 +99,8 @@ public class DataInitializer {
                         "05550000002",
                         "TESIS_YONETICISI",
                         "GES",
-                        "İç Anadolu",
-                        "GES Konya 1",
+                        icAnadoluGes,
+                        gesKonya1,
                         true
                 ));
 
@@ -50,7 +113,7 @@ public class DataInitializer {
                         "05550000003",
                         "BOLGE_YONETICISI",
                         "GES",
-                        "İç Anadolu",
+                        icAnadoluGes,
                         null,
                         true
                 ));
