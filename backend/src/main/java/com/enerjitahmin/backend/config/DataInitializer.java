@@ -1,22 +1,31 @@
 package com.enerjitahmin.backend.config;
 
+import com.enerjitahmin.backend.entity.Alarm;
 import com.enerjitahmin.backend.entity.Facility;
+import com.enerjitahmin.backend.entity.ProductionRecord;
 import com.enerjitahmin.backend.entity.Region;
 import com.enerjitahmin.backend.entity.User;
+import com.enerjitahmin.backend.repository.AlarmRepository;
 import com.enerjitahmin.backend.repository.FacilityRepository;
+import com.enerjitahmin.backend.repository.ProductionRecordRepository;
 import com.enerjitahmin.backend.repository.RegionRepository;
 import com.enerjitahmin.backend.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Configuration
 public class DataInitializer {
 
     @Bean
     CommandLineRunner initData(UserRepository userRepository,
-                               RegionRepository regionRepository,
-                               FacilityRepository facilityRepository) {
+            RegionRepository regionRepository,
+            FacilityRepository facilityRepository,
+            ProductionRecordRepository productionRecordRepository,
+            AlarmRepository alarmRepository) {
         return args -> {
 
             if (regionRepository.count() == 0) {
@@ -87,8 +96,7 @@ public class DataInitializer {
                         "GES",
                         icAnadoluGes,
                         gesKonya1,
-                        true
-                ));
+                        true));
 
                 userRepository.save(new User(
                         "Ayşe",
@@ -101,8 +109,7 @@ public class DataInitializer {
                         "GES",
                         icAnadoluGes,
                         gesKonya1,
-                        true
-                ));
+                        true));
 
                 userRepository.save(new User(
                         "Mehmet",
@@ -115,8 +122,7 @@ public class DataInitializer {
                         "GES",
                         icAnadoluGes,
                         null,
-                        true
-                ));
+                        true));
 
                 userRepository.save(new User(
                         "Zeynep",
@@ -129,8 +135,81 @@ public class DataInitializer {
                         "GES",
                         null,
                         null,
-                        true
-                ));
+                        true));
+            }
+
+            if (productionRecordRepository.count() == 0) {
+                Facility gesKonya1 = facilityRepository.findAll().stream()
+                        .filter(facility -> facility.getName().equals("GES Konya 1"))
+                        .findFirst()
+                        .orElse(null);
+
+                if (gesKonya1 != null) {
+                    productionRecordRepository
+                            .save(new ProductionRecord(gesKonya1, LocalDate.of(2026, 3, 23), 120.0, 118.0));
+                    productionRecordRepository
+                            .save(new ProductionRecord(gesKonya1, LocalDate.of(2026, 3, 24), 125.0, 121.0));
+                    productionRecordRepository
+                            .save(new ProductionRecord(gesKonya1, LocalDate.of(2026, 3, 25), 130.0, 126.0));
+                    productionRecordRepository
+                            .save(new ProductionRecord(gesKonya1, LocalDate.of(2026, 3, 26), 128.0, 110.0));
+                    productionRecordRepository
+                            .save(new ProductionRecord(gesKonya1, LocalDate.of(2026, 3, 27), 135.0, 132.0));
+                    productionRecordRepository
+                            .save(new ProductionRecord(gesKonya1, LocalDate.of(2026, 3, 28), 140.0, 95.0));
+                    productionRecordRepository
+                            .save(new ProductionRecord(gesKonya1, LocalDate.of(2026, 3, 29), 138.0, 136.0));
+                }
+            }
+
+            if (alarmRepository.count() == 0) {
+                Facility gesKonya1 = facilityRepository.findAll().stream()
+                        .filter(facility -> facility.getName().equals("GES Konya 1"))
+                        .findFirst()
+                        .orElse(null);
+
+                User manager1 = userRepository.findAll().stream()
+                        .filter(user -> user.getUsername().equals("manager1"))
+                        .findFirst()
+                        .orElse(null);
+
+                ProductionRecord record26 = productionRecordRepository.findAll().stream()
+                        .filter(record -> record.getRecordDate().equals(LocalDate.of(2026, 3, 26)))
+                        .findFirst()
+                        .orElse(null);
+
+                ProductionRecord record28 = productionRecordRepository.findAll().stream()
+                        .filter(record -> record.getRecordDate().equals(LocalDate.of(2026, 3, 28)))
+                        .findFirst()
+                        .orElse(null);
+
+                if (gesKonya1 != null && record26 != null) {
+                    alarmRepository.save(new Alarm(
+                            gesKonya1,
+                            record26,
+                            "PRODUCTION_DEVIATION",
+                            "UYARI",
+                            "Üretim-Tahmin Sapması",
+                            "26 Mart tarihli üretim verisinde tahmin edilen ve gerçekleşen değer arasında dikkat gerektiren bir fark tespit edildi.",
+                            "AKTIF",
+                            LocalDateTime.of(2026, 3, 26, 18, 0),
+                            null,
+                            null));
+                }
+
+                if (gesKonya1 != null && record28 != null) {
+                    alarmRepository.save(new Alarm(
+                            gesKonya1,
+                            record28,
+                            "PRODUCTION_DEVIATION",
+                            "KRITIK",
+                            "Kritik Üretim Sapması",
+                            "28 Mart tarihli üretim verisinde tahmin edilen ve gerçekleşen değer arasında kritik seviyede fark tespit edildi.",
+                            "COZULDU",
+                            LocalDateTime.of(2026, 3, 28, 18, 0),
+                            LocalDateTime.of(2026, 3, 28, 20, 30),
+                            manager1));
+                }
             }
         };
     }

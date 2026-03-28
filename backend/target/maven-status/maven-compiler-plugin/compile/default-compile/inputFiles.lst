@@ -1,9 +1,13 @@
 /Users/sedefkoc/Desktop/EnerjiTahminSistemiFrontend/backend/src/main/java/com/enerjitahmin/backend/BackendApplication.java
 /Users/sedefkoc/Desktop/EnerjiTahminSistemiFrontend/backend/src/main/java/com/enerjitahmin/backend/TestController.java
 /Users/sedefkoc/Desktop/EnerjiTahminSistemiFrontend/backend/src/main/java/com/enerjitahmin/backend/config/DataInitializer.java
+/Users/sedefkoc/Desktop/EnerjiTahminSistemiFrontend/backend/src/main/java/com/enerjitahmin/backend/entity/Alarm.java
 /Users/sedefkoc/Desktop/EnerjiTahminSistemiFrontend/backend/src/main/java/com/enerjitahmin/backend/entity/Facility.java
+/Users/sedefkoc/Desktop/EnerjiTahminSistemiFrontend/backend/src/main/java/com/enerjitahmin/backend/entity/ProductionRecord.java
 /Users/sedefkoc/Desktop/EnerjiTahminSistemiFrontend/backend/src/main/java/com/enerjitahmin/backend/entity/Region.java
 /Users/sedefkoc/Desktop/EnerjiTahminSistemiFrontend/backend/src/main/java/com/enerjitahmin/backend/entity/User.java
+/Users/sedefkoc/Desktop/EnerjiTahminSistemiFrontend/backend/src/main/java/com/enerjitahmin/backend/repository/AlarmRepository.java
 /Users/sedefkoc/Desktop/EnerjiTahminSistemiFrontend/backend/src/main/java/com/enerjitahmin/backend/repository/FacilityRepository.java
+/Users/sedefkoc/Desktop/EnerjiTahminSistemiFrontend/backend/src/main/java/com/enerjitahmin/backend/repository/ProductionRecordRepository.java
 /Users/sedefkoc/Desktop/EnerjiTahminSistemiFrontend/backend/src/main/java/com/enerjitahmin/backend/repository/RegionRepository.java
 /Users/sedefkoc/Desktop/EnerjiTahminSistemiFrontend/backend/src/main/java/com/enerjitahmin/backend/repository/UserRepository.java
