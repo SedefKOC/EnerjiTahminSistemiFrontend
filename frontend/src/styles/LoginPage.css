@@ -1,0 +1,36 @@
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Arial, sans-serif;
+  padding: 24px;
+}
+
+.login-page.ges-theme {
+  background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+}
+
+.login-page.hes-theme {
+  background: linear-gradient(135deg, #eff6ff, #dbeafe);
+}
+
+.login-box {
+  width: 100%;
+  max-width: 520px;
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 36px;
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.12);
+  text-align: center;
+}
+
+.login-badge {
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: #e2e8f0;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 18px;
+}
