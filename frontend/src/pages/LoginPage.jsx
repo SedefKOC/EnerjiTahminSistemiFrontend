@@ -50,7 +50,11 @@ function LoginPage() {
 
       if (data.success) {
         localStorage.setItem("loggedInUser", JSON.stringify(data));
-        navigate("/dashboard");
+        if (data.role === "TESIS_GOREVLISI") {
+          navigate("/operator/dashboard");
+        } else {
+          setErrorMessage("Bu rol için panel henüz hazırlanmadı");
+        }
       } else {
         setErrorMessage(data.message || "Giriş başarısız");
       }
@@ -61,7 +65,9 @@ function LoginPage() {
 
   return (
     <div className={`login-page ${themeClass}`}>
-      <div className="login-top-brand">Enerji Yönetim ve Karar Destek Sistemi</div>
+      <div className="login-top-brand">
+        Enerji Yönetim ve Karar Destek Sistemi
+      </div>
 
       <div className="login-wrapper">
         <div className="login-back-row">

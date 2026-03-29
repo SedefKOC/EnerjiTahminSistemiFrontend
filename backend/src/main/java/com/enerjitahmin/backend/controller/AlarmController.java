@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/alarms")
+@CrossOrigin(origins = "http://localhost:5173")
 public class AlarmController {
 
     private final AlarmRepository alarmRepository;
