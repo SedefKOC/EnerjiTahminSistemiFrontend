@@ -1,12 +1,12 @@
-import { useNavigate } from 'react-router-dom';
-import '../styles/FacilitySelectionPage.css';
+import { useNavigate } from "react-router-dom";
+import "../styles/FacilitySelectionPage.css";
 
 function FacilitySelectionPage() {
   const navigate = useNavigate();
 
   const handleSelect = (plantType) => {
-    localStorage.setItem('selectedPlantType', plantType);
-    navigate('/login');
+    localStorage.setItem("selectedPlantType", plantType);
+    navigate("/login");
   };
 
   return (
@@ -22,16 +22,18 @@ function FacilitySelectionPage() {
 
         <div className="facility-card-grid">
           <button
+            type="button"
             className="facility-card"
-            onClick={() => handleSelect('GES')}
+            onClick={() => handleSelect("GES")}
           >
             <div className="icon-box">☀</div>
             <h2>GES (Güneş Enerji Santrali)</h2>
           </button>
 
           <button
+            type="button"
             className="facility-card"
-            onClick={() => handleSelect('HES')}
+            onClick={() => handleSelect("HES")}
           >
             <div className="icon-box">💧</div>
             <h2>HES (Hidroelektrik Santrali)</h2>
