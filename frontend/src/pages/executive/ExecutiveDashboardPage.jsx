@@ -14,19 +14,22 @@ function ExecutiveDashboardPage() {
   const [alarms, setAlarms] = useState([]);
   const [facilities, setFacilities] = useState([]);
   const [regions, setRegions] = useState([]);
+  const [chartData, setChartData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [prodRes, alarmRes, facilityRes] = await Promise.all([
+        const [prodRes, alarmRes, facilityRes, chartRes] = await Promise.all([
           fetch("http://localhost:8080/api/production-records"),
           fetch("http://localhost:8080/api/alarms"),
           fetch("http://localhost:8080/api/facilities"),
+          fetch(`http://localhost:8080/api/production-records/executive/weekly?plantType=${user.plantType}`),
         ]);
 
         const prodData = await prodRes.json();
         const alarmData = await alarmRes.json();
         const facilityData = await facilityRes.json();
+        const chartPoints = await chartRes.json();
 
         const filteredFacilities = facilityData.filter(
           (f) => f.plantType === user.plantType
@@ -48,6 +51,7 @@ function ExecutiveDashboardPage() {
         setAlarms(filteredAlarms);
         setFacilities(filteredFacilities);
         setRegions(uniqueRegions);
+        setChartData(chartPoints);
       } catch (err) {
         console.error(err);
       }
@@ -116,7 +120,7 @@ function ExecutiveDashboardPage() {
         <div className="graph-title">
           {isGES ? "GES Genel Üretim Grafiği" : "HES Genel Üretim Grafiği"}
         </div>
-        <ProductionChart data={productionRecords} />
+        <ProductionChart data={chartData} />
       </div>
     </DashboardLayout>
   );

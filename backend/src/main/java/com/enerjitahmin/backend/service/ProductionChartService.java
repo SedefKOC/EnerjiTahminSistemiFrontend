@@ -38,6 +38,32 @@ public class ProductionChartService {
         return result;
     }
 
+    public List<ProductionChartPointDto> getExecutiveWeeklyChart(String plantType) {
+        LocalDate endDate = LocalDate.now();
+        LocalDate startDate = endDate.minusDays(6);
+
+        List<ProductionRecord> records = productionRecordRepository
+                .findByPlantTypeAndDateRange(plantType, startDate, endDate);
+
+        Map<LocalDate, double[]> grouped = new LinkedHashMap<>();
+        for (ProductionRecord record : records) {
+            LocalDate date = record.getRecordDate();
+            grouped.computeIfAbsent(date, k -> new double[]{0.0, 0.0});
+            grouped.get(date)[0] += record.getPredictedEnergy();
+            grouped.get(date)[1] += record.getActualEnergy();
+        }
+
+        List<ProductionChartPointDto> result = new ArrayList<>();
+        for (Map.Entry<LocalDate, double[]> entry : grouped.entrySet()) {
+            result.add(new ProductionChartPointDto(
+                    entry.getKey().toString(),
+                    entry.getValue()[0],
+                    entry.getValue()[1]
+            ));
+        }
+        return result;
+    }
+
     public List<ProductionChartPointDto> getRegionWeeklyChart(Long regionId) {
         LocalDate endDate = LocalDate.now();
         LocalDate startDate = endDate.minusDays(6);

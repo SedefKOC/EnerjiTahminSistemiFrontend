@@ -35,4 +35,9 @@ public class ProductionRecordController {
     public List<ProductionChartPointDto> getRegionWeeklyChart(@PathVariable Long regionId) {
         return productionChartService.getRegionWeeklyChart(regionId);
     }
+
+    @GetMapping("/api/production-records/executive/weekly")
+    public List<ProductionChartPointDto> getExecutiveWeeklyChart(@RequestParam String plantType) {
+        return productionChartService.getExecutiveWeeklyChart(plantType);
+    }
 }

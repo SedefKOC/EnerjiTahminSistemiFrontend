@@ -25,4 +25,14 @@ public interface ProductionRecordRepository extends JpaRepository<ProductionReco
             @Param("startDate") LocalDate startDate,
             @Param("endDate") LocalDate endDate
     );
+
+    @Query("SELECT pr FROM ProductionRecord pr " +
+            "WHERE pr.facility.plantType = :plantType " +
+            "AND pr.recordDate BETWEEN :startDate AND :endDate " +
+            "ORDER BY pr.recordDate ASC")
+    List<ProductionRecord> findByPlantTypeAndDateRange(
+            @Param("plantType") String plantType,
+            @Param("startDate") LocalDate startDate,
+            @Param("endDate") LocalDate endDate
+    );
 }
