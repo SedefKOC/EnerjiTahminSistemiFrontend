@@ -13,11 +13,23 @@ function Sidebar({ role, plantType }) {
     TESIS_GOREVLISI: [
       { label: "⌂ Ana Sayfa", path: "/operator/dashboard" },
       { label: "⚠ Alarmlar", path: "/operator/alarms" },
-      { label: "Rapor", path: "/operator/rapor" }
+      { label: "🗎 Rapor", path: "/operator/rapor" },
+    ],
+    TESIS_YONETICISI: [
+      { label: "⌂ Ana Sayfa", path: "/manager/dashboard" },
+      { label: "⚠ Alarmlar", path: "/manager/alarms" },
+      { label: "🗎 Rapor", path: "/manager/rapor" },
     ],
   };
 
   const menuItems = menuByRole[role] || [];
+
+  const roleLabel =
+    role === "TESIS_GOREVLISI"
+      ? "Tesis Görevlisi"
+      : role === "TESIS_YONETICISI"
+      ? "Tesis Yöneticisi"
+      : role;
 
   return (
     <aside className={`sidebar ${plantType === "HES" ? "hes-theme" : "ges-theme"}`}>
@@ -45,7 +57,7 @@ function Sidebar({ role, plantType }) {
         <div className="sidebar-user-box">
           <div className="sidebar-avatar">◔</div>
           <div className="sidebar-user-info">
-            <strong>Tesis Görevlisi</strong>
+            <strong>{roleLabel}</strong>
             <span>{user.username?.toUpperCase() || "ADMIN"}</span>
           </div>
         </div>
