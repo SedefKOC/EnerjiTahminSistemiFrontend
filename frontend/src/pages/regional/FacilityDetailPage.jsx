@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import DashboardLayout from "../../components/DashboardLayout";
+import ProductionChart from "../../components/ProductionChart";
 import "../../styles/OperatorPages.css";
 
 function FacilityDetailPage() {
@@ -13,19 +14,22 @@ function FacilityDetailPage() {
   const [facility, setFacility] = useState(null);
   const [productionRecords, setProductionRecords] = useState([]);
   const [alarms, setAlarms] = useState([]);
+  const [chartData, setChartData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [facilityRes, productionRes, alarmRes] = await Promise.all([
+        const [facilityRes, productionRes, alarmRes, chartRes] = await Promise.all([
           fetch("http://localhost:8080/api/facilities"),
           fetch("http://localhost:8080/api/production-records"),
           fetch("http://localhost:8080/api/alarms"),
+          fetch(`http://localhost:8080/api/production-records/facility/${id}/weekly`),
         ]);
 
         const facilityData = await facilityRes.json();
         const productionData = await productionRes.json();
         const alarmData = await alarmRes.json();
+        const chartPoints = await chartRes.json();
 
         const selectedFacility = facilityData.find((f) => String(f.id) === id);
         setFacility(selectedFacility || null);
@@ -39,6 +43,7 @@ function FacilityDetailPage() {
 
         setProductionRecords(filteredProduction);
         setAlarms(filteredAlarms);
+        setChartData(chartPoints);
       } catch (error) {
         console.error("Tesis detay verileri alınamadı:", error);
       }
@@ -83,6 +88,19 @@ function FacilityDetailPage() {
               ))
             )}
           </div>
+        </div>
+      )}
+
+      {facility && (
+        <div className="graph-card" style={{ marginTop: "16px" }}>
+          <div className="graph-header">
+            <div className="graph-title">Son 7 Günlük Üretim Grafiği</div>
+            <div className="graph-legend-inline">
+              <span><span className="dot green"></span>Gerçekleşen</span>
+              <span><span className="line gray"></span>Tahmin</span>
+            </div>
+          </div>
+          <ProductionChart data={chartData} />
         </div>
       )}
     </DashboardLayout>
