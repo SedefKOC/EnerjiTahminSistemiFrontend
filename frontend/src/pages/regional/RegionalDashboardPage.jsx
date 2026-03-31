@@ -84,7 +84,7 @@ function RegionalDashboardPage() {
   const criticalAlarmCount = alarms.filter((alarm) => alarm.severity === "KRITIK").length;
 
   return (
-    <DashboardLayout pageTitle="Bölge Yöneticisi Paneli">
+    <DashboardLayout pageTitle={user.region?.name ? `${user.region.name} Bölgesi Yönetici Paneli` : "Bölge Yöneticisi Paneli"}>
       <div className="page-subtitle">
         {isGES
           ? "Bölgenize bağlı güneş enerji santrallerinin genel performansını buradan izleyin."
