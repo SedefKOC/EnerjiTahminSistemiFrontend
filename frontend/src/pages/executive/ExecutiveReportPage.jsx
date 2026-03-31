@@ -110,19 +110,8 @@ function ExecutiveReportPage() {
           </p>
         </div>
 
-        <div className="report-box full">
-          <button
-            onClick={exportToExcel}
-            style={{
-              padding: "12px 18px",
-              background: "#16a34a",
-              color: "white",
-              border: "none",
-              borderRadius: "10px",
-              cursor: "pointer",
-              fontWeight: "700",
-            }}
-          >
+        <div className="report-box full report-action-box">
+          <button className="report-download-button" onClick={exportToExcel}>
             Genel Excel Raporunu İndir
           </button>
         </div>

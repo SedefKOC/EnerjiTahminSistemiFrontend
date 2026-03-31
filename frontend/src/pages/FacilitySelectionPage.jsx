@@ -23,7 +23,7 @@ function FacilitySelectionPage() {
         <div className="facility-card-grid">
           <button
             type="button"
-            className="facility-card"
+            className="facility-card facility-card-ges"
             onClick={() => handleSelect("GES")}
           >
             <div className="icon-box">☀</div>
@@ -32,7 +32,7 @@ function FacilitySelectionPage() {
 
           <button
             type="button"
-            className="facility-card"
+            className="facility-card facility-card-hes"
             onClick={() => handleSelect("HES")}
           >
             <div className="icon-box">💧</div>

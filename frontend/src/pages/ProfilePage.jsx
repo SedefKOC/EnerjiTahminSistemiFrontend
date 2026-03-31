@@ -4,6 +4,7 @@ import "../styles/ProfilePage.css";
 
 function ProfilePage() {
   const storedUser = JSON.parse(localStorage.getItem("loggedInUser") || "{}");
+  const isGES = storedUser.plantType === "GES";
 
   const [user, setUser] = useState(storedUser);
   const [modalType, setModalType] = useState(null);
@@ -110,7 +111,7 @@ function ProfilePage() {
   };
   return (
     <DashboardLayout pageTitle="Profil">
-      <div className="profile-page">
+      <div className={`profile-page ${isGES ? "ges-theme" : "hes-theme"}`}>
         <div className="profile-card">
           <h2>Kullanıcı Bilgileri</h2>
           <p className="profile-subtitle">

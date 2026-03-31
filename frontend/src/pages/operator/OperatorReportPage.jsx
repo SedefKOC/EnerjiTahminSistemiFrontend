@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import DashboardLayout from "../../components/DashboardLayout";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
+import "../../styles/OperatorPages.css";
 
 function OperatorReportPage() {
   const [productionRecords, setProductionRecords] = useState([]);
@@ -61,21 +62,27 @@ function OperatorReportPage() {
 
   return (
     <DashboardLayout pageTitle="Rapor">
-      <h2>Rapor Oluştur</h2>
+      <div className="page-subtitle">
+        Üretim ve alarm kayıtlarını tek dosyada dışa aktarın.
+      </div>
 
-      <button
-        onClick={exportToExcel}
-        style={{
-          padding: "12px 18px",
-          background: "#16a34a",
-          color: "white",
-          border: "none",
-          borderRadius: "10px",
-          cursor: "pointer",
-        }}
-      >
-        Excel Raporu İndir
-      </button>
+      <div className="report-page-grid">
+        <div className="report-box">
+          <h3>Operasyon Raporu</h3>
+          <p>Güncel üretim kayıtları ve alarm başlıkları tek Excel dosyasında toplanır.</p>
+        </div>
+
+        <div className="report-box">
+          <h3>Hazır Dışa Aktarım</h3>
+          <p>İndirilen çıktı operasyon ekiplerinin hızlı inceleme ve paylaşımına uygundur.</p>
+        </div>
+
+        <div className="report-box full report-action-box">
+          <button className="report-download-button" onClick={exportToExcel}>
+            Excel Raporu İndir
+          </button>
+        </div>
+      </div>
     </DashboardLayout>
   );
 }

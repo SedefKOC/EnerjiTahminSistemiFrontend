@@ -63,7 +63,7 @@ function Sidebar({ role, plantType }) {
                 `sidebar-link ${isActive ? "active" : ""}`
               }
             >
-              {item.label}
+              <span className="sidebar-link-text">{item.label}</span>
             </NavLink>
           ))}
         </nav>

@@ -11,9 +11,10 @@ function DashboardLayout({ children, pageTitle }) {
   }, []);
 
   const fullName = `${user.firstName || ""} ${user.lastName || ""}`.trim();
+  const isGES = user.plantType === "GES";
 
   return (
-    <div className="dashboard-layout">
+    <div className={`dashboard-layout ${isGES ? "theme-ges" : "theme-hes"}`}>
       <Sidebar role={user.role} plantType={user.plantType} />
 
       <main className="dashboard-content">
