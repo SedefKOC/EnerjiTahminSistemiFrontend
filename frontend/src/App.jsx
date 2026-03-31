@@ -11,6 +11,10 @@ import RegionalDashboardPage from "./pages/regional/RegionalDashboardPage";
 import RegionalFacilitiesPage from "./pages/regional/RegionalFacilitiesPage";
 import FacilityDetailPage from "./pages/regional/FacilityDetailPage";
 import RegionalReportPage from "./pages/regional/RegionalReportPage";
+import ExecutiveDashboardPage from "./pages/executive/ExecutiveDashboardPage";
+import ExecutiveRegionsPage from "./pages/executive/ExecutiveRegionsPage";
+import RegionDetailPage from "./pages/executive/RegionDetailPage";
+import ExecutiveReportPage from "./pages/executive/ExecutiveReportPage";
 
 function App() {
   return (
@@ -31,6 +35,11 @@ function App() {
       <Route path="/regional/facilities" element={<RegionalFacilitiesPage />} />
       <Route path="/regional/facilities/:id" element={<FacilityDetailPage />} />
       <Route path="/regional/rapor" element={<RegionalReportPage />} />
+
+      <Route path="/executive/dashboard" element={<ExecutiveDashboardPage />} />
+      <Route path="/executive/regions" element={<ExecutiveRegionsPage />} />
+      <Route path="/executive/regions/:name" element={<RegionDetailPage />} />
+      <Route path="/executive/rapor" element={<ExecutiveReportPage />} />
     </Routes>
   );
 }

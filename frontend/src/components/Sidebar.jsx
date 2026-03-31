@@ -25,6 +25,11 @@ function Sidebar({ role, plantType }) {
       { label: "▣ Tesisler", path: "/regional/facilities" },
       { label: "🗎 Rapor", path: "/regional/rapor" },
     ],
+    UST_YONETICI: [
+      { label: "⌂ Ana Sayfa", path: "/executive/dashboard" },
+      { label: "▣ Bölgeler", path: "/executive/regions" },
+      { label: "🗎 Rapor", path: "/executive/rapor" },
+    ],
   };
 
   const menuItems = menuByRole[role] || [];
@@ -33,13 +38,17 @@ function Sidebar({ role, plantType }) {
     role === "TESIS_GOREVLISI"
       ? "Tesis Görevlisi"
       : role === "TESIS_YONETICISI"
-      ? "Tesis Yöneticisi"
-      : role === "BOLGE_YONETICISI"
-      ? "Bölge Yöneticisi"
-      : role;
+        ? "Tesis Yöneticisi"
+        : role === "BOLGE_YONETICISI"
+          ? "Bölge Yöneticisi"
+          : role === "UST_YONETICI"
+            ? "Üst Yönetici"
+            : role;
 
   return (
-    <aside className={`sidebar ${plantType === "HES" ? "hes-theme" : "ges-theme"}`}>
+    <aside
+      className={`sidebar ${plantType === "HES" ? "hes-theme" : "ges-theme"}`}
+    >
       <div className="sidebar-top">
         <div className="sidebar-brand">
           <h2>Enerji Yönetim ve Karar Destek Sistemi</h2>

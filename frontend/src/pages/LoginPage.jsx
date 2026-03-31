@@ -58,7 +58,7 @@ function LoginPage() {
         } else if (data.role === "BOLGE_YONETICISI") {
           navigate("/regional/dashboard");
         } else {
-          setErrorMessage("Bu rol için panel henüz hazırlanmadı");
+          navigate("/executive/dashboard");
         }
       } else {
         setErrorMessage(data.message || "Giriş başarısız");
@@ -70,7 +70,9 @@ function LoginPage() {
 
   return (
     <div className={`login-page ${themeClass}`}>
-      <div className="login-top-brand">Enerji Yönetim ve Karar Destek Sistemi</div>
+      <div className="login-top-brand">
+        Enerji Yönetim ve Karar Destek Sistemi
+      </div>
 
       <div className="login-wrapper">
         <div className="login-back-row">
