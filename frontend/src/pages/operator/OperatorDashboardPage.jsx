@@ -12,14 +12,23 @@ function OperatorDashboardPage() {
 
   const [productionRecords, setProductionRecords] = useState([]);
   const [alarms, setAlarms] = useState([]);
+  const [chartData, setChartData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [productionResponse, alarmResponse] = await Promise.all([
+        const facilityId = user.facility?.id;
+        const requests = [
           fetch("http://localhost:8080/api/production-records"),
           fetch("http://localhost:8080/api/alarms"),
-        ]);
+        ];
+        if (facilityId) {
+          requests.push(
+            fetch(`http://localhost:8080/api/production-records/facility/${facilityId}/weekly`)
+          );
+        }
+
+        const [productionResponse, alarmResponse, chartResponse] = await Promise.all(requests);
 
         const productionData = await productionResponse.json();
         const alarmData = await alarmResponse.json();
@@ -34,13 +43,17 @@ function OperatorDashboardPage() {
 
         setProductionRecords(filteredProduction);
         setAlarms(filteredAlarms);
+
+        if (chartResponse) {
+          setChartData(await chartResponse.json());
+        }
       } catch (error) {
         console.error("Dashboard verileri alınamadı:", error);
       }
     };
 
     fetchData();
-  }, [user.plantType]);
+  }, [user.facility?.id, user.plantType]);
 
   const totalPredicted = productionRecords.reduce(
     (sum, item) => sum + item.predictedEnergy,
@@ -179,7 +192,7 @@ function OperatorDashboardPage() {
             </div>
           </div>
           <div className="graph-container">
-            <ProductionChart data={productionRecords} />
+            <ProductionChart data={chartData} />
           </div>
         </div>
       </div>

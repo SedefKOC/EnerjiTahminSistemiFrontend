@@ -5,6 +5,8 @@
 /Users/sedefkoc/Desktop/EnerjiTahminSistemiFrontend/backend/src/main/java/com/enerjitahmin/backend/controller/AuthController.java
 /Users/sedefkoc/Desktop/EnerjiTahminSistemiFrontend/backend/src/main/java/com/enerjitahmin/backend/controller/FacilityController.java
 /Users/sedefkoc/Desktop/EnerjiTahminSistemiFrontend/backend/src/main/java/com/enerjitahmin/backend/controller/ProductionRecordController.java
+/Users/sedefkoc/Desktop/EnerjiTahminSistemiFrontend/backend/src/main/java/com/enerjitahmin/backend/controller/UserController.java
+/Users/sedefkoc/Desktop/EnerjiTahminSistemiFrontend/backend/src/main/java/com/enerjitahmin/backend/dto/ProductionChartPointDto.java
 /Users/sedefkoc/Desktop/EnerjiTahminSistemiFrontend/backend/src/main/java/com/enerjitahmin/backend/entity/Alarm.java
 /Users/sedefkoc/Desktop/EnerjiTahminSistemiFrontend/backend/src/main/java/com/enerjitahmin/backend/entity/Facility.java
 /Users/sedefkoc/Desktop/EnerjiTahminSistemiFrontend/backend/src/main/java/com/enerjitahmin/backend/entity/ProductionRecord.java
@@ -16,3 +18,4 @@
 /Users/sedefkoc/Desktop/EnerjiTahminSistemiFrontend/backend/src/main/java/com/enerjitahmin/backend/repository/RegionRepository.java
 /Users/sedefkoc/Desktop/EnerjiTahminSistemiFrontend/backend/src/main/java/com/enerjitahmin/backend/repository/UserRepository.java
 /Users/sedefkoc/Desktop/EnerjiTahminSistemiFrontend/backend/src/main/java/com/enerjitahmin/backend/service/AlarmGenerationService.java
+/Users/sedefkoc/Desktop/EnerjiTahminSistemiFrontend/backend/src/main/java/com/enerjitahmin/backend/service/ProductionChartService.java

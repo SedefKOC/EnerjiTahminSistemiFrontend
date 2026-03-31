@@ -13,15 +13,25 @@ function RegionalDashboardPage() {
   const [productionRecords, setProductionRecords] = useState([]);
   const [alarms, setAlarms] = useState([]);
   const [facilities, setFacilities] = useState([]);
+  const [chartData, setChartData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [productionResponse, alarmResponse, facilityResponse] = await Promise.all([
+        const regionId = user.region?.id;
+        const requests = [
           fetch("http://localhost:8080/api/production-records"),
           fetch("http://localhost:8080/api/alarms"),
           fetch("http://localhost:8080/api/facilities"),
-        ]);
+        ];
+        if (regionId) {
+          requests.push(
+            fetch(`http://localhost:8080/api/production-records/region/${regionId}/weekly`)
+          );
+        }
+
+        const [productionResponse, alarmResponse, facilityResponse, chartResponse] =
+          await Promise.all(requests);
 
         const productionData = await productionResponse.json();
         const alarmData = await alarmResponse.json();
@@ -48,6 +58,10 @@ function RegionalDashboardPage() {
         setFacilities(regionalFacilities);
         setProductionRecords(regionalProduction);
         setAlarms(regionalAlarms);
+
+        if (chartResponse) {
+          setChartData(await chartResponse.json());
+        }
       } catch (error) {
         console.error("Regional dashboard verileri alınamadı:", error);
       }
@@ -129,7 +143,7 @@ function RegionalDashboardPage() {
           </div>
         </div>
 
-        <ProductionChart data={productionRecords} />
+        <ProductionChart data={chartData} />
       </div>
     </DashboardLayout>
   );
