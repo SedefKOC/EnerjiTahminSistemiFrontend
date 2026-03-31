@@ -1,8 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import DashboardLayout from "../../components/DashboardLayout";
 import "../../styles/OperatorPages.css";
 
 function ManagerAlarmsPage() {
+  const user = useMemo(() => {
+    return JSON.parse(localStorage.getItem("loggedInUser") || "{}");
+  }, []);
+
   const [alarms, setAlarms] = useState([]);
 
   useEffect(() => {
@@ -10,19 +14,26 @@ function ManagerAlarmsPage() {
       try {
         const response = await fetch("http://localhost:8080/api/alarms");
         const data = await response.json();
-        setAlarms(data);
+
+        const filteredByPlantType = data.filter(
+          (alarm) => alarm.facility?.plantType === user.plantType
+        );
+
+        setAlarms(filteredByPlantType);
       } catch (error) {
         console.error("Manager alarm verileri alınamadı:", error);
       }
     };
 
     fetchAlarms();
-  }, []);
+  }, [user.plantType]);
 
   return (
     <DashboardLayout pageTitle="Alarm Yönetimi">
       <div className="page-subtitle">
-        Alarm durumlarını ve çözüm geçmişini inceleyin.
+        {user.plantType === "GES"
+          ? "GES tesislerine ait alarm durumlarını yönetsel bakışla inceleyin."
+          : "HES tesislerine ait alarm durumlarını yönetsel bakışla inceleyin."}
       </div>
 
       <div className="alarm-list-visual">

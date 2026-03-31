@@ -19,7 +19,9 @@ function RegionalFacilitiesPage() {
         const data = await response.json();
 
         const regionalFacilities = data.filter(
-          (facility) => facility.region?.name === user.region?.name
+          (facility) =>
+            facility.region?.name === user.region?.name &&
+            facility.plantType === user.plantType
         );
 
         setFacilities(regionalFacilities);

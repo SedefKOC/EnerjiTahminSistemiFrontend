@@ -8,6 +8,8 @@ function ManagerDashboardPage() {
     return JSON.parse(localStorage.getItem("loggedInUser") || "{}");
   }, []);
 
+  const isGES = user.plantType === "GES";
+
   const [productionRecords, setProductionRecords] = useState([]);
   const [alarms, setAlarms] = useState([]);
 
@@ -22,39 +24,44 @@ function ManagerDashboardPage() {
         const productionData = await productionResponse.json();
         const alarmData = await alarmResponse.json();
 
-        setProductionRecords(productionData);
-        setAlarms(alarmData);
+        const filteredProduction = productionData.filter(
+          (record) => record.facility?.plantType === user.plantType
+        );
+
+        const filteredAlarms = alarmData.filter(
+          (alarm) => alarm.facility?.plantType === user.plantType
+        );
+
+        setProductionRecords(filteredProduction);
+        setAlarms(filteredAlarms);
       } catch (error) {
         console.error("Manager dashboard verileri alınamadı:", error);
       }
     };
 
     fetchData();
-  }, []);
+  }, [user.plantType]);
 
   const totalPredicted = productionRecords.reduce(
     (sum, item) => sum + item.predictedEnergy,
-    0,
+    0
   );
 
   const totalActual = productionRecords.reduce(
     (sum, item) => sum + item.actualEnergy,
-    0,
+    0
   );
 
-  const resolvedCount = alarms.filter(
-    (alarm) => alarm.status === "COZULDU",
-  ).length;
+  const resolvedCount = alarms.filter((alarm) => alarm.status === "COZULDU").length;
   const activeCount = alarms.filter((alarm) => alarm.status === "AKTIF").length;
-  const criticalCount = alarms.filter(
-    (alarm) => alarm.severity === "KRITIK",
-  ).length;
+  const criticalCount = alarms.filter((alarm) => alarm.severity === "KRITIK").length;
 
   return (
     <DashboardLayout pageTitle="Tesis Yöneticisi Paneli">
       <div className="page-subtitle">
-        Tesisin genel performansını, alarm durumunu ve kullanıcı aksiyonlarını
-        buradan izleyin.
+        {isGES
+          ? "GES tesisinin yönetimsel üretim ve alarm özetini görüntüleyin."
+          : "HES tesisinin yönetimsel üretim ve alarm özetini görüntüleyin."}
       </div>
 
       <div className="top-cards-grid">
@@ -89,18 +96,23 @@ function ManagerDashboardPage() {
         </div>
       </div>
 
+      <div className="report-box full" style={{ marginBottom: "14px" }}>
+        <h3>{isGES ? "GES Yönetim Notu" : "HES Yönetim Notu"}</h3>
+        <p>
+          {isGES
+            ? "Panel verimliliği, hava koşulları ve üretim-tahmin sapmaları yönetimsel olarak izlenmektedir."
+            : "Su akış koşulları, türbin besleme dengesi ve üretim-tahmin sapmaları yönetimsel olarak izlenmektedir."}
+        </p>
+      </div>
+
       <div className="graph-card">
         <div className="graph-header">
           <div className="graph-title">
-            Üretim Performansı (Gerçekleşen vs Tahmin)
+            {isGES ? "GES Üretim Performansı" : "HES Üretim Performansı"}
           </div>
           <div className="graph-legend-inline">
-            <span>
-              <span className="dot green"></span>Gerçekleşen
-            </span>
-            <span>
-              <span className="line gray"></span>Tahmin
-            </span>
+            <span><span className="dot green"></span>Gerçekleşen</span>
+            <span><span className="line gray"></span>Tahmin</span>
           </div>
         </div>
 
@@ -122,10 +134,7 @@ function ManagerDashboardPage() {
 
             <div className="simple-list-card">
               <strong>Çözülen Alarm Sayısı</strong>
-              <p>
-                {resolvedCount} alarm personel tarafından çözüldü olarak
-                işaretlendi.
-              </p>
+              <p>{resolvedCount} alarm personel tarafından çözüldü olarak işaretlendi.</p>
             </div>
           </div>
         </section>
@@ -133,6 +142,7 @@ function ManagerDashboardPage() {
         <section className="content-panel">
           <div className="panel-header">
             <h2>Son Çözülen Alarmlar</h2>
+            <p>Kim tarafından çözüldüğü görülebilir</p>
           </div>
 
           <div className="simple-list">
@@ -142,38 +152,18 @@ function ManagerDashboardPage() {
               .map((alarm) => (
                 <div key={alarm.id} className="simple-list-card">
                   <strong>{alarm.title}</strong>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "6px",
-                    }}
-                  >
-                    <p>
-                      Çözen:{" "}
-                      {alarm.resolvedBy
-                        ? `${alarm.resolvedBy.firstName} ${alarm.resolvedBy.lastName}`
-                        : "Bilinmiyor"}
-                    </p>
-
-                    <p>
-                      Çözüm Zamanı:{" "}
-                      {alarm.resolvedAt
-                        ? new Date(alarm.resolvedAt).toLocaleString("tr-TR")
-                        : "Tarih bilgisi yok"}
-                    </p>
-
-                    {alarm.resolvedBy && (
-                      <>
-                        <p>
-                          İletişim: {alarm.resolvedBy.phone || "Telefon yok"}
-                        </p>
-                        <p>
-                          E-posta: {alarm.resolvedBy.email || "E-posta yok"}
-                        </p>
-                      </>
-                    )}
-                  </div>
+                  <p>
+                    Çözen:{" "}
+                    {alarm.resolvedBy
+                      ? `${alarm.resolvedBy.firstName} ${alarm.resolvedBy.lastName}`
+                      : "Bilinmiyor"}
+                  </p>
+                  <p>
+                    Çözüm Zamanı:{" "}
+                    {alarm.resolvedAt
+                      ? new Date(alarm.resolvedAt).toLocaleString("tr-TR")
+                      : "Tarih bilgisi yok"}
+                  </p>
                 </div>
               ))}
           </div>

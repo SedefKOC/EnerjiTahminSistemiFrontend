@@ -1,9 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import DashboardLayout from "../../components/DashboardLayout";
 import ProductionChart from "../../components/ProductionChart";
 import "../../styles/OperatorPages.css";
 
 function ExecutiveDashboardPage() {
+  const user = useMemo(() => {
+    return JSON.parse(localStorage.getItem("loggedInUser") || "{}");
+  }, []);
+
+  const isGES = user.plantType === "GES";
+
   const [productionRecords, setProductionRecords] = useState([]);
   const [alarms, setAlarms] = useState([]);
   const [facilities, setFacilities] = useState([]);
@@ -22,13 +28,25 @@ function ExecutiveDashboardPage() {
         const alarmData = await alarmRes.json();
         const facilityData = await facilityRes.json();
 
+        const filteredFacilities = facilityData.filter(
+          (f) => f.plantType === user.plantType
+        );
+        const facilityIds = filteredFacilities.map((f) => f.id);
+
+        const filteredProduction = prodData.filter((r) =>
+          facilityIds.includes(r.facility?.id)
+        );
+        const filteredAlarms = alarmData.filter((a) =>
+          facilityIds.includes(a.facility?.id)
+        );
+
         const uniqueRegions = [
-          ...new Set(facilityData.map((f) => f.region?.name)),
+          ...new Set(filteredFacilities.map((f) => f.region?.name)),
         ];
 
-        setProductionRecords(prodData);
-        setAlarms(alarmData);
-        setFacilities(facilityData);
+        setProductionRecords(filteredProduction);
+        setAlarms(filteredAlarms);
+        setFacilities(filteredFacilities);
         setRegions(uniqueRegions);
       } catch (err) {
         console.error(err);
@@ -36,7 +54,7 @@ function ExecutiveDashboardPage() {
     };
 
     fetchData();
-  }, []);
+  }, [user.plantType]);
 
   const totalPredicted = productionRecords.reduce(
     (sum, item) => sum + item.predictedEnergy,
@@ -54,7 +72,18 @@ function ExecutiveDashboardPage() {
   return (
     <DashboardLayout pageTitle="Üst Yönetici Paneli">
       <div className="page-subtitle">
-        Tüm sistemin genel performansını izleyin.
+        {isGES
+          ? "Güneş enerji santrallerinin genel performansını üst yönetim seviyesinde izleyin."
+          : "Hidroelektrik santrallerin genel performansını üst yönetim seviyesinde izleyin."}
+      </div>
+
+      <div className="report-box full" style={{ marginBottom: "14px" }}>
+        <h3>{isGES ? "GES Üst Yönetim Özeti" : "HES Üst Yönetim Özeti"}</h3>
+        <p>
+          {isGES
+            ? "Güneş enerji santrallerine ait genel üretim, alarm ve tesis dağılımı üst yönetim seviyesinde görüntülenmektedir."
+            : "Hidroelektrik santrallere ait genel üretim, alarm ve tesis dağılımı üst yönetim seviyesinde görüntülenmektedir."}
+        </p>
       </div>
 
       <div className="top-cards-grid">
@@ -84,7 +113,9 @@ function ExecutiveDashboardPage() {
       </div>
 
       <div className="graph-card">
-        <div className="graph-title">Genel Üretim Grafiği</div>
+        <div className="graph-title">
+          {isGES ? "GES Genel Üretim Grafiği" : "HES Genel Üretim Grafiği"}
+        </div>
         <ProductionChart data={productionRecords} />
       </div>
     </DashboardLayout>

@@ -15,7 +15,12 @@ function OperatorAlarmsPage() {
     try {
       const response = await fetch("http://localhost:8080/api/alarms");
       const data = await response.json();
-      setAlarms(data);
+
+      const filteredByPlantType = data.filter(
+        (alarm) => alarm.facility?.plantType === user.plantType
+      );
+
+      setAlarms(filteredByPlantType);
     } catch (error) {
       console.error("Alarmlar alınamadı:", error);
     }
@@ -23,7 +28,7 @@ function OperatorAlarmsPage() {
 
   useEffect(() => {
     fetchAlarms();
-  }, []);
+  }, [user.plantType]);
 
   const handleResolve = async (alarmId) => {
     try {
@@ -31,7 +36,7 @@ function OperatorAlarmsPage() {
         `http://localhost:8080/api/alarms/${alarmId}/resolve?userId=${user.userId}`,
         {
           method: "POST",
-        },
+        }
       );
 
       if (response.ok) {
@@ -55,20 +60,16 @@ function OperatorAlarmsPage() {
     return true;
   });
 
-  const criticalCount = alarms.filter(
-    (alarm) => alarm.severity === "KRITIK",
-  ).length;
-  const warningCount = alarms.filter(
-    (alarm) => alarm.severity === "UYARI",
-  ).length;
-  const resolvedCount = alarms.filter(
-    (alarm) => alarm.status === "COZULDU",
-  ).length;
+  const criticalCount = alarms.filter((alarm) => alarm.severity === "KRITIK").length;
+  const warningCount = alarms.filter((alarm) => alarm.severity === "UYARI").length;
+  const resolvedCount = alarms.filter((alarm) => alarm.status === "COZULDU").length;
 
   return (
     <DashboardLayout pageTitle="Alarmlar">
       <div className="page-subtitle">
-        Tesis genelindeki üretim kaynaklı uyarıları takip edin.
+        {user.plantType === "GES"
+          ? "Güneş enerji üretimine bağlı alarm kayıtlarını takip edin."
+          : "Hidroelektrik üretime bağlı alarm kayıtlarını takip edin."}
       </div>
 
       <div className="alarm-top-summary">
@@ -119,7 +120,7 @@ function OperatorAlarmsPage() {
           </button>
         </div>
 
-        <div className="alarm-period">BU AY ⌄</div>
+        <div className="alarm-period">{user.plantType}</div>
       </div>
 
       <div className="alarm-list-visual">
@@ -192,37 +193,8 @@ function OperatorAlarmsPage() {
                 ✕
               </button>
             </div>
-            <div className="modal-info-row">
-              <span>Seviye</span>
-              <strong>{selectedAlarm.severity}</strong>
-            </div>
-
-            <div className="modal-info-row">
-              <span>Durum</span>
-              <strong>{selectedAlarm.status}</strong>
-            </div>
 
             <div className="alarm-modal-body">
-              <div className="modal-info-row">
-                <span>Tesis</span>
-                <strong>
-                  {selectedAlarm.facility?.name || "Tesis bilgisi yok"}
-                </strong>
-              </div>
-
-              <div className="modal-info-row">
-                <span>Tarih</span>
-                <strong>
-                  {selectedAlarm.createdAt
-                    ? new Date(selectedAlarm.createdAt).toLocaleString("tr-TR")
-                    : "Tarih bilgisi yok"}
-                </strong>
-              </div>
-
-              <div className="modal-description-box">
-                <span>Açıklama</span>
-                <p>{selectedAlarm.description}</p>
-              </div>
               {selectedAlarm.status === "COZULDU" && (
                 <div className="resolved-info-box">
                   <div className="resolved-row">
@@ -238,14 +210,41 @@ function OperatorAlarmsPage() {
                     <span>Çözüm Tarihi</span>
                     <strong>
                       {selectedAlarm.resolvedAt
-                        ? new Date(selectedAlarm.resolvedAt).toLocaleString(
-                            "tr-TR",
-                          )
+                        ? new Date(selectedAlarm.resolvedAt).toLocaleString("tr-TR")
                         : "Tarih yok"}
                     </strong>
                   </div>
                 </div>
               )}
+
+              <div className="modal-info-row">
+                <span>Seviye</span>
+                <strong>{selectedAlarm.severity}</strong>
+              </div>
+
+              <div className="modal-info-row">
+                <span>Durum</span>
+                <strong>{selectedAlarm.status}</strong>
+              </div>
+
+              <div className="modal-info-row">
+                <span>Tesis</span>
+                <strong>{selectedAlarm.facility?.name || "Tesis bilgisi yok"}</strong>
+              </div>
+
+              <div className="modal-info-row">
+                <span>Tarih</span>
+                <strong>
+                  {selectedAlarm.createdAt
+                    ? new Date(selectedAlarm.createdAt).toLocaleString("tr-TR")
+                    : "Tarih bilgisi yok"}
+                </strong>
+              </div>
+
+              <div className="modal-description-box">
+                <span>Açıklama</span>
+                <p>{selectedAlarm.description}</p>
+              </div>
             </div>
           </div>
         </div>

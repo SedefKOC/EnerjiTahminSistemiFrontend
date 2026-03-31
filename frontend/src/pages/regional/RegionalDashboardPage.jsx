@@ -8,6 +8,8 @@ function RegionalDashboardPage() {
     return JSON.parse(localStorage.getItem("loggedInUser") || "{}");
   }, []);
 
+  const isGES = user.plantType === "GES";
+
   const [productionRecords, setProductionRecords] = useState([]);
   const [alarms, setAlarms] = useState([]);
   const [facilities, setFacilities] = useState([]);
@@ -28,7 +30,9 @@ function RegionalDashboardPage() {
         const userRegionName = user.region?.name;
 
         const regionalFacilities = facilityData.filter(
-          (facility) => facility.region?.name === userRegionName
+          (facility) =>
+            facility.region?.name === userRegionName &&
+            facility.plantType === user.plantType
         );
 
         const regionalFacilityIds = regionalFacilities.map((facility) => facility.id);
@@ -68,7 +72,18 @@ function RegionalDashboardPage() {
   return (
     <DashboardLayout pageTitle="Bölge Yöneticisi Paneli">
       <div className="page-subtitle">
-        Bölgenize bağlı tesislerin genel üretim ve alarm performansını buradan izleyin.
+        {isGES
+          ? "Bölgenize bağlı güneş enerji santrallerinin genel performansını buradan izleyin."
+          : "Bölgenize bağlı hidroelektrik santrallerinin genel performansını buradan izleyin."}
+      </div>
+
+      <div className="report-box full" style={{ marginBottom: "14px" }}>
+        <h3>{isGES ? "GES Bölge Özeti" : "HES Bölge Özeti"}</h3>
+        <p>
+          {isGES
+            ? "Bölgeye bağlı güneş enerji santrallerinin üretim ve alarm verileri toplu olarak izlenmektedir."
+            : "Bölgeye bağlı hidroelektrik santrallerinin üretim ve alarm verileri toplu olarak izlenmektedir."}
+        </p>
       </div>
 
       <div className="top-cards-grid">
@@ -93,7 +108,7 @@ function RegionalDashboardPage() {
         </div>
 
         <div className="metric-card light-card">
-          <div className="metric-label">TESİS / AKTİF ALARM / KRİTİK</div>
+          <div className="metric-label">TESİS / AKTİF / KRİTİK</div>
           <div className="metric-value-row">
             <div className="metric-value">
               {facilities.length} / {activeAlarmCount} / {criticalAlarmCount}
@@ -105,7 +120,9 @@ function RegionalDashboardPage() {
 
       <div className="graph-card">
         <div className="graph-header">
-          <div className="graph-title">Bölgesel Üretim Grafiği</div>
+          <div className="graph-title">
+            {isGES ? "GES Bölgesel Üretim Grafiği" : "HES Bölgesel Üretim Grafiği"}
+          </div>
           <div className="graph-legend-inline">
             <span><span className="dot green"></span>Gerçekleşen</span>
             <span><span className="line gray"></span>Tahmin</span>
@@ -113,43 +130,6 @@ function RegionalDashboardPage() {
         </div>
 
         <ProductionChart data={productionRecords} />
-      </div>
-
-      <div className="operator-main-grid" style={{ marginTop: "14px" }}>
-        <section className="content-panel">
-          <div className="panel-header">
-            <h2>Bölge Özeti</h2>
-            <p>Yönetilen tesislerin genel performans görünümü</p>
-          </div>
-
-          <div className="simple-list">
-            <div className="simple-list-card">
-              <strong>Yönetilen Tesis Sayısı</strong>
-              <p>Bölgenizde toplam {facilities.length} tesis bulunmaktadır.</p>
-            </div>
-
-            <div className="simple-list-card">
-              <strong>Aktif Alarm Yoğunluğu</strong>
-              <p>Şu anda {activeAlarmCount} aktif alarm izlenmektedir.</p>
-            </div>
-          </div>
-        </section>
-
-        <section className="content-panel">
-          <div className="panel-header">
-            <h2>Son Alarm Hareketleri</h2>
-            <p>Bölgedeki en güncel alarm kayıtları</p>
-          </div>
-
-          <div className="simple-list">
-            {alarms.slice(0, 3).map((alarm) => (
-              <div key={alarm.id} className="simple-list-card">
-                <strong>{alarm.title}</strong>
-                <p>{alarm.facility?.name || "Tesis"} | {alarm.status}</p>
-              </div>
-            ))}
-          </div>
-        </section>
       </div>
     </DashboardLayout>
   );

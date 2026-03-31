@@ -1,19 +1,25 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import DashboardLayout from "../../components/DashboardLayout";
 
 function ExecutiveRegionsPage() {
   const navigate = useNavigate();
-  const [regions, setRegions] = useState([]);
+
+  const user = useMemo(() => {
+    return JSON.parse(localStorage.getItem("loggedInUser") || "{}");
+  }, []);
+
+  const [regions, setRegions] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {
       const res = await fetch("http://localhost:8080/api/facilities");
       const data = await res.json();
 
-      const grouped = {};
+      const filtered = data.filter((f) => f.plantType === user.plantType);
 
-      data.forEach((f) => {
+      const grouped = {};
+      filtered.forEach((f) => {
         if (!grouped[f.region.name]) {
           grouped[f.region.name] = [];
         }
@@ -24,7 +30,7 @@ function ExecutiveRegionsPage() {
     };
 
     fetchData();
-  }, []);
+  }, [user.plantType]);
 
   return (
     <DashboardLayout pageTitle="Bölgeler">
