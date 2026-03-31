@@ -1,5 +1,6 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import DashboardLayout from "../../components/DashboardLayout";
+import ProductionChart from "../../components/ProductionChart";
 import "../../styles/OperatorPages.css";
 
 function OperatorDashboardPage() {
@@ -8,6 +9,44 @@ function OperatorDashboardPage() {
   }, []);
 
   const isGES = user.plantType === "GES";
+
+  const [productionRecords, setProductionRecords] = useState([]);
+  const [alarms, setAlarms] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [productionResponse, alarmResponse] = await Promise.all([
+          fetch("http://localhost:8080/api/production-records"),
+          fetch("http://localhost:8080/api/alarms"),
+        ]);
+
+        const productionData = await productionResponse.json();
+        const alarmData = await alarmResponse.json();
+
+        setProductionRecords(productionData);
+        setAlarms(alarmData);
+      } catch (error) {
+        console.error("Dashboard verileri alınamadı:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const totalPredicted = productionRecords.reduce(
+    (sum, item) => sum + item.predictedEnergy,
+    0
+  );
+
+  const totalActual = productionRecords.reduce(
+    (sum, item) => sum + item.actualEnergy,
+    0
+  );
+
+  const activeAlarmCount = alarms.filter(
+    (alarm) => alarm.status === "AKTIF"
+  ).length;
 
   return (
     <DashboardLayout pageTitle="Ana Sayfa">
@@ -22,7 +61,7 @@ function OperatorDashboardPage() {
           </div>
           <div className="metric-value-row">
             <div className="metric-value">
-              {isGES ? "2.8" : "18.4"} <span>MWh</span>
+              {totalActual.toFixed(1)} <span>MWh</span>
             </div>
             <div className="metric-icon green-icon">
               {isGES ? "▣" : "⚡"}
@@ -84,103 +123,19 @@ function OperatorDashboardPage() {
       <div className="graph-card">
         <div className="graph-header">
           <div className="graph-title">Enerji Üretimi (Gerçekleşen vs Tahmin)</div>
-          <div className="graph-legend">
-            <span><span className="dot green"></span>Gerçekleşen</span>
-            <span><span className="line gray"></span>Tahmin</span>
+          <div className="graph-legend-inline">
+            <span>
+              <span className="dot green"></span>
+              Gerçekleşen
+            </span>
+            <span>
+              <span className="line gray"></span>
+              Tahmin
+            </span>
           </div>
         </div>
 
-        {isGES ? (
-          <div className="mock-chart">
-            <div className="grid-lines" />
-            <div className="anomaly-badge">ANOMALİ TESPİT EDİLDİ (CMT - PAZ)</div>
-
-            <div className="chart-labels left-scale ges-scale">
-              <span>500</span>
-              <span>400</span>
-              <span>300</span>
-              <span>200</span>
-              <span>100</span>
-              <span>0</span>
-            </div>
-
-            <svg viewBox="0 0 760 280" className="chart-svg">
-              <polyline
-                points="50,160 140,162 230,156 320,160 410,154 500,122 590,182"
-                fill="none"
-                stroke="#16a34a"
-                strokeWidth="4"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <polyline
-                points="50,164 140,166 230,160 320,163 410,158 500,150 590,148"
-                fill="none"
-                stroke="#9ca3af"
-                strokeWidth="3"
-                strokeDasharray="8 6"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <circle cx="50" cy="160" r="6" fill="#16a34a" />
-              <circle cx="140" cy="162" r="6" fill="#16a34a" />
-              <circle cx="230" cy="156" r="6" fill="#16a34a" />
-              <circle cx="320" cy="160" r="6" fill="#16a34a" />
-              <circle cx="410" cy="154" r="6" fill="#16a34a" />
-              <circle cx="500" cy="122" r="6" fill="#dc2626" />
-              <circle cx="590" cy="182" r="6" fill="#dc2626" />
-            </svg>
-
-            <div className="chart-bottom-labels">
-              <span>PZT</span>
-              <span>SAL</span>
-              <span>ÇAR</span>
-              <span>PER</span>
-              <span>CUM</span>
-              <span className="red-day">CMT</span>
-              <span className="red-day">PAZ</span>
-            </div>
-          </div>
-        ) : (
-          <div className="mock-chart">
-            <div className="grid-lines" />
-
-            <div className="chart-labels left-scale hes-scale">
-              <span>250</span>
-              <span>200</span>
-              <span>150</span>
-              <span>100</span>
-              <span>50</span>
-            </div>
-
-            <svg viewBox="0 0 760 280" className="chart-svg">
-              <polyline
-                points="50,190 140,194 230,186 320,191 410,180 500,105 590,220"
-                fill="none"
-                stroke="#16a34a"
-                strokeWidth="4"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <polyline
-                points="50,192 140,190 230,188 320,190 410,184 500,170 590,168"
-                fill="none"
-                stroke="#9ca3af"
-                strokeWidth="3"
-                strokeDasharray="8 6"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <circle cx="50" cy="190" r="6" fill="#16a34a" />
-              <circle cx="140" cy="194" r="6" fill="#16a34a" />
-              <circle cx="230" cy="186" r="6" fill="#16a34a" />
-              <circle cx="320" cy="191" r="6" fill="#16a34a" />
-              <circle cx="410" cy="180" r="6" fill="#16a34a" />
-              <circle cx="500" cy="105" r="6" fill="#dc2626" />
-              <circle cx="590" cy="220" r="6" fill="#dc2626" />
-            </svg>
-          </div>
-        )}
+        <ProductionChart data={productionRecords} />
       </div>
     </DashboardLayout>
   );
