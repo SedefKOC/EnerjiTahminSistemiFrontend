@@ -918,6 +918,7 @@
   
   .alarm-top-summary,
   .report-page-grid,
+  .report-options-grid,
   .facility-grid {
     grid-template-columns: 1fr;
   }
@@ -991,4 +992,120 @@
   .resolved-static-button {
     width: 100%;
   }
+}
+
+/* ─── Report Options Grid (Executive — 3 columns) ─── */
+
+.report-options-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.report-option-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  box-shadow: 0 14px 34px rgba(15, 23, 42, 0.04);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.report-option-card h3 {
+  margin: 0;
+  color: #111827;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.report-option-card p {
+  margin: 0;
+  color: #4b5563;
+  font-size: 14px;
+  line-height: 1.6;
+  flex: 1;
+}
+
+/* ─── Searchable Selector UI (used in report selection modals) ─── */
+
+.selector-search {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: inherit;
+  color: #111827;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.selector-search:focus {
+  border-color: #047857;
+  box-shadow: 0 0 0 3px rgba(4, 120, 87, 0.08);
+}
+
+.selector-list {
+  max-height: 280px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 8px;
+  background: #f8fafc;
+}
+
+.selector-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+  background: white;
+  border: 1px solid #e5e7eb;
+  transition: background 0.15s ease;
+  user-select: none;
+}
+
+.selector-item:hover {
+  background: #f0fdf4;
+  border-color: rgba(4, 120, 87, 0.2);
+}
+
+.dashboard-layout.theme-hes .selector-search:focus {
+  border-color: #1d4ed8;
+  box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.08);
+}
+
+.dashboard-layout.theme-hes .selector-item:hover {
+  background: #eff6ff;
+  border-color: rgba(29, 78, 216, 0.2);
+}
+
+.selector-item input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #047857;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.dashboard-layout.theme-hes .selector-item input[type="checkbox"] {
+  accent-color: #1d4ed8;
+}
+
+.selector-item-meta {
+  margin-left: auto;
+  font-size: 12px;
+  color: #6b7280;
+  font-weight: 500;
+  white-space: nowrap;
 }
