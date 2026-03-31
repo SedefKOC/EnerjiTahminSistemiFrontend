@@ -14,3 +14,4 @@
 /Users/sedefkoc/Desktop/EnerjiTahminSistemiFrontend/backend/src/main/java/com/enerjitahmin/backend/repository/ProductionRecordRepository.java
 /Users/sedefkoc/Desktop/EnerjiTahminSistemiFrontend/backend/src/main/java/com/enerjitahmin/backend/repository/RegionRepository.java
 /Users/sedefkoc/Desktop/EnerjiTahminSistemiFrontend/backend/src/main/java/com/enerjitahmin/backend/repository/UserRepository.java
+/Users/sedefkoc/Desktop/EnerjiTahminSistemiFrontend/backend/src/main/java/com/enerjitahmin/backend/service/AlarmGenerationService.java

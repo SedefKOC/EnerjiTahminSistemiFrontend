@@ -4,6 +4,7 @@ import com.enerjitahmin.backend.entity.Alarm;
 import com.enerjitahmin.backend.entity.User;
 import com.enerjitahmin.backend.repository.AlarmRepository;
 import com.enerjitahmin.backend.repository.UserRepository;
+import com.enerjitahmin.backend.service.AlarmGenerationService;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -16,10 +17,14 @@ public class AlarmController {
 
     private final AlarmRepository alarmRepository;
     private final UserRepository userRepository;
+    private final AlarmGenerationService alarmGenerationService;
 
-    public AlarmController(AlarmRepository alarmRepository, UserRepository userRepository) {
+    public AlarmController(AlarmRepository alarmRepository,
+                           UserRepository userRepository,
+                           AlarmGenerationService alarmGenerationService) {
         this.alarmRepository = alarmRepository;
         this.userRepository = userRepository;
+        this.alarmGenerationService = alarmGenerationService;
     }
 
     @GetMapping
@@ -40,5 +45,11 @@ public class AlarmController {
         alarm.setResolvedBy(user);
 
         return alarmRepository.save(alarm);
+    }
+
+    @PostMapping("/generate")
+    public String generateAlarms() {
+        alarmGenerationService.generateAlarms();
+        return "Alarmlar oluşturuldu";
     }
 }
