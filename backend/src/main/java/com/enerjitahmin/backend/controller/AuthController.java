@@ -31,21 +31,24 @@ public class AuthController {
 
         Map<String, Object> response = new HashMap<>();
 
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            response.put("success", true);
-            response.put("message", "Giriş başarılı");
-            response.put("userId", user.getId());
-            response.put("username", user.getUsername());
-            response.put("role", user.getRole());
-            response.put("plantType", user.getPlantType());
-            response.put("firstName", user.getFirstName());
-            response.put("lastName", user.getLastName());
-        } else {
-            response.put("success", false);
-            response.put("message", "Kullanıcı bilgileri hatalı");
-        }
-
+       if (userOptional.isPresent()) {
+    User user = userOptional.get();
+    response.put("success", true);
+    response.put("message", "Giriş başarılı");
+    response.put("userId", user.getId());
+    response.put("username", user.getUsername());
+    response.put("firstName", user.getFirstName());
+    response.put("lastName", user.getLastName());
+    response.put("role", user.getRole());
+    response.put("plantType", user.getPlantType());
+    response.put("region", user.getRegion());
+    response.put("facility", user.getFacility());
+    response.put("email", user.getEmail());
+    response.put("phone", user.getPhone());
+} else {
+    response.put("success", false);
+    response.put("message", "Kullanıcı bilgileri hatalı");
+}
         return response;
     }
 }

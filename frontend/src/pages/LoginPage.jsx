@@ -55,6 +55,8 @@ function LoginPage() {
           navigate("/operator/dashboard");
         } else if (data.role === "TESIS_YONETICISI") {
           navigate("/manager/dashboard");
+        } else if (data.role === "BOLGE_YONETICISI") {
+          navigate("/regional/dashboard");
         } else {
           setErrorMessage("Bu rol için panel henüz hazırlanmadı");
         }

@@ -20,6 +20,11 @@ function Sidebar({ role, plantType }) {
       { label: "⚠ Alarmlar", path: "/manager/alarms" },
       { label: "🗎 Rapor", path: "/manager/rapor" },
     ],
+    BOLGE_YONETICISI: [
+      { label: "⌂ Ana Sayfa", path: "/regional/dashboard" },
+      { label: "▣ Tesisler", path: "/regional/facilities" },
+      { label: "🗎 Rapor", path: "/regional/rapor" },
+    ],
   };
 
   const menuItems = menuByRole[role] || [];
@@ -29,6 +34,8 @@ function Sidebar({ role, plantType }) {
       ? "Tesis Görevlisi"
       : role === "TESIS_YONETICISI"
       ? "Tesis Yöneticisi"
+      : role === "BOLGE_YONETICISI"
+      ? "Bölge Yöneticisi"
       : role;
 
   return (
