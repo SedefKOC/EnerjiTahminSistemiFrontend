@@ -70,7 +70,11 @@ function Sidebar({ role, plantType }) {
       </div>
 
       <div className="sidebar-bottom">
-        <div className="sidebar-user-box">
+        <div
+          className="sidebar-user-box"
+          onClick={() => navigate("/profile")}
+          style={{ cursor: "pointer" }}
+        >
           <div className="sidebar-avatar">◔</div>
           <div className="sidebar-user-info">
             <strong>{roleLabel}</strong>

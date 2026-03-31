@@ -16,6 +16,8 @@ import ExecutiveRegionsPage from "./pages/executive/ExecutiveRegionsPage";
 import RegionDetailPage from "./pages/executive/RegionDetailPage";
 import ExecutiveReportPage from "./pages/executive/ExecutiveReportPage";
 
+import ProfilePage from "./pages/ProfilePage";
+
 function App() {
   return (
     <Routes>
@@ -40,6 +42,8 @@ function App() {
       <Route path="/executive/regions" element={<ExecutiveRegionsPage />} />
       <Route path="/executive/regions/:name" element={<RegionDetailPage />} />
       <Route path="/executive/rapor" element={<ExecutiveReportPage />} />
+
+      <Route path="/profile" element={<ProfilePage />} />
     </Routes>
   );
 }
