@@ -13,7 +13,7 @@ function Sidebar({ role, plantType }) {
     TESIS_GOREVLISI: [
       { label: "⌂ Ana Sayfa", path: "/operator/dashboard" },
       { label: "⚠ Alarmlar", path: "/operator/alarms" },
-      { label: "⚙ Karar Destek", path: "/operator/reports" },
+      { label: "Rapor", path: "/operator/rapor" }
     ],
   };
 

@@ -3,7 +3,7 @@ import FacilitySelectionPage from "./pages/FacilitySelectionPage";
 import LoginPage from "./pages/LoginPage";
 import OperatorDashboardPage from "./pages/operator/OperatorDashboardPage";
 import OperatorAlarmsPage from "./pages/operator/OperatorAlarmsPage";
-import OperatorReportsPage from "./pages/operator/OperatorReportsPage";
+import OperatorReportPage from "./pages/operator/OperatorReportPage";
 
 function App() {
   return (
@@ -13,7 +13,7 @@ function App() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/operator/dashboard" element={<OperatorDashboardPage />} />
       <Route path="/operator/alarms" element={<OperatorAlarmsPage />} />
-      <Route path="/operator/reports" element={<OperatorReportsPage />} />
+      <Route path="/operator/rapor" element={<OperatorReportPage />} />
     </Routes>
   );
 }
