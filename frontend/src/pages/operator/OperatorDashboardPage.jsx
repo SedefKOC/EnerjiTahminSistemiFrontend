@@ -192,7 +192,7 @@ function OperatorDashboardPage() {
             </div>
           </div>
           <div className="graph-container">
-            <ProductionChart data={chartData} />
+            <ProductionChart data={chartData} plantType={user.plantType} />
           </div>
         </div>
       </div>

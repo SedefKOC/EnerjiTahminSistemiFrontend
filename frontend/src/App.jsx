@@ -1,4 +1,6 @@
 import { Routes, Route, Navigate } from "react-router-dom";
+import { useState } from "react";
+import IntroOverlay from "./components/IntroOverlay";
 import FacilitySelectionPage from "./pages/FacilitySelectionPage";
 import LoginPage from "./pages/LoginPage";
 import OperatorDashboardPage from "./pages/operator/OperatorDashboardPage";
@@ -15,10 +17,15 @@ import ExecutiveDashboardPage from "./pages/executive/ExecutiveDashboardPage";
 import ExecutiveRegionsPage from "./pages/executive/ExecutiveRegionsPage";
 import RegionDetailPage from "./pages/executive/RegionDetailPage";
 import ExecutiveReportPage from "./pages/executive/ExecutiveReportPage";
-
 import ProfilePage from "./pages/ProfilePage";
 
 function App() {
+  const [showIntro, setShowIntro] = useState(true);
+
+  if (showIntro) {
+    return <IntroOverlay onDone={() => setShowIntro(false)} />;
+  }
+
   return (
     <Routes>
       <Route path="/" element={<Navigate to="/tesis-secimi" replace />} />

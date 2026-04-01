@@ -1,10 +1,72 @@
-@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
+/* ─── Global dark base variables ─── */
+:root {
+  --bg-base:        #0d1117;
+  --bg-surface:     #161b22;
+  --bg-elevated:    #21262d;
+  --bg-overlay:     #30363d;
+
+  --border-subtle:  #21262d;
+  --border-default: #30363d;
+
+  --text-primary:   #e6edf3;
+  --text-secondary: #8b949e;
+  --text-muted:     #484f58;
+
+  --status-success: #3fb950;
+  --status-warning: #fbbf24;
+  --status-danger:  #f85149;
+  --status-info:    #58a6ff;
+
+  /* GES defaults (green) */
+  --accent-core:    #16a34a;
+  --accent-bright:  #4ade80;
+  --accent-dim:     #2a4a30;
+  --bg-tinted:      #071a0d;
+  --border-tinted:  #0e3a1e;
+  --surface-tinted: #0d2015;
+  --border-surface: #1a2e1e;
+}
+
+/* ─── GES overrides ─── */
+.theme-ges,
+.ges-theme {
+  --bg-base:        #0a110d;
+  --bg-surface:     #0d1610;
+  --accent-core:    #16a34a;
+  --accent-bright:  #4ade80;
+  --accent-dim:     #2a4a30;
+  --bg-tinted:      #071a0d;
+  --border-tinted:  #0e3a1e;
+  --surface-tinted: #0d2015;
+  --border-surface: #1a2e1e;
+}
+
+/* ─── HES overrides ─── */
+.theme-hes,
+.hes-theme {
+  --bg-base:        #0a0e1a;
+  --bg-surface:     #0d1220;
+  --accent-core:    #1d6fa4;
+  --accent-bright:  #38bdf8;
+  --accent-dim:     #2d4a6e;
+  --bg-tinted:      #061828;
+  --border-tinted:  #0e3654;
+  --surface-tinted: #0d1e30;
+  --border-surface: #1a2540;
+}
+
+/* ─── Global reset ─── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
 
 html, body, #root {
   height: 100%;
   width: 100%;
   margin: 0;
   padding: 0;
+  background: var(--bg-base);
+  color: var(--text-primary);
 }
 
 html,
@@ -13,5 +75,5 @@ button,
 input,
 textarea,
 select {
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
 }

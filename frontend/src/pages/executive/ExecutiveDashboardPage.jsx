@@ -120,7 +120,7 @@ function ExecutiveDashboardPage() {
         <div className="graph-title">
           {isGES ? "GES Genel Üretim Grafiği" : "HES Genel Üretim Grafiği"}
         </div>
-        <ProductionChart data={chartData} />
+        <ProductionChart data={chartData} plantType={user.plantType} />
       </div>
     </DashboardLayout>
   );

@@ -51,8 +51,12 @@ function Sidebar({ role, plantType }) {
     >
       <div className="sidebar-top">
         <div className="sidebar-brand">
-          <h2>Enerji Yönetim ve Karar Destek Sistemi</h2>
+          <h2>Enerji Yönetim<br /><span>ve Karar Destek</span></h2>
         </div>
+
+        <span className="sidebar-section-title">
+          {plantType === "HES" ? "HES Yönetimi" : "GES Yönetimi"}
+        </span>
 
         <nav className="sidebar-menu">
           {menuItems.map((item) => (

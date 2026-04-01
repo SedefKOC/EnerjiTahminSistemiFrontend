@@ -100,7 +100,7 @@ function FacilityDetailPage() {
               <span><span className="line gray"></span>Tahmin</span>
             </div>
           </div>
-          <ProductionChart data={chartData} />
+          <ProductionChart data={chartData} plantType={facility?.plantType} />
         </div>
       )}
     </DashboardLayout>

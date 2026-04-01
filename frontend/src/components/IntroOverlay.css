@@ -1,0 +1,105 @@
+/* ═══════════════════════════════════════════════════════════════
+   Obsidian Pulse — IntroOverlay.css
+   Alternatif A: büyük ortada belir → çizgi çekil → scale-down
+   ile yukarı çekilip yok ol → logo zaten yerinde kalır
+═══════════════════════════════════════════════════════════════ */
+
+/* ── Overlay zemini ── */
+.intro-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #0d1117;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 300ms ease;
+}
+
+.intro-overlay--out {
+  opacity: 0;
+}
+
+/* ── Orta blok: tüm içeriği kapsayan wrapper ── */
+.intro-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  /* exit animasyonu için transform-origin merkez üst olsun
+     böylece yukarı çekilirken "küçülüp uçuyor" hissi verir */
+  transform-origin: center top;
+  transition:
+    transform 700ms cubic-bezier(0.4, 0, 0.2, 1),
+    opacity   600ms ease;
+}
+
+.intro-center--exit {
+  transform: scale(0.05) translateY(-600px);
+  opacity: 0;
+}
+
+/* ── Tagline (küçük üst yazı) ── */
+.intro-tagline {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 3.5px;
+  text-transform: uppercase;
+  color: #484f58;
+  margin: 0 0 20px 0;
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity  600ms ease,
+    transform 600ms ease;
+}
+
+.intro-tagline--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Ana başlık ── */
+.intro-title {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 500;
+  color: #e6edf3;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+  margin: 0;
+  opacity: 0;
+  transform: translateY(14px);
+  /* tagline'dan 120ms geç başlasın */
+  transition:
+    opacity  650ms ease 120ms,
+    transform 650ms ease 120ms;
+}
+
+.intro-title--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* "Karar Destek" vurgusu — tema accent rengi */
+.intro-title-accent {
+  color: #7c3aed;
+}
+
+/* ── Alt dekoratif çizgi ── */
+.intro-divider {
+  width: 0;
+  height: 1px;
+  background: #21262d;
+  margin-top: 28px;
+  /* genişleme 800ms, ease-out ile yavaş durur */
+  transition: width 800ms cubic-bezier(0.0, 0, 0.2, 1);
+}
+
+.intro-divider--expanded {
+  /* vw bazlı: ekranın %40'ı kadar çizgi, max 480px */
+  width: min(40vw, 480px);
+}

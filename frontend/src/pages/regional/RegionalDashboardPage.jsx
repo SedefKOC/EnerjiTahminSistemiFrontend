@@ -143,7 +143,7 @@ function RegionalDashboardPage() {
           </div>
         </div>
 
-        <ProductionChart data={chartData} />
+        <ProductionChart data={chartData} plantType={user.plantType} />
       </div>
     </DashboardLayout>
   );

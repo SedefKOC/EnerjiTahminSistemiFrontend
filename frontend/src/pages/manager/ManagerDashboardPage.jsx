@@ -129,7 +129,7 @@ function ManagerDashboardPage() {
           </div>
         </div>
 
-        <ProductionChart data={chartData} />
+        <ProductionChart data={chartData} plantType={user.plantType} />
       </div>
 
       <div className="operator-main-grid" style={{ marginTop: "14px" }}>
