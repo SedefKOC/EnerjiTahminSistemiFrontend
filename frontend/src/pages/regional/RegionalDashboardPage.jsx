@@ -19,6 +19,7 @@ function RegionalDashboardPage() {
     const fetchData = async () => {
       try {
         const regionId = user.region?.id;
+        console.log("[RegionalDash] user.region:", user.region, "| regionId:", regionId);
         const requests = [
           fetch("http://localhost:8080/api/production-records"),
           fetch("http://localhost:8080/api/alarms"),
@@ -28,6 +29,8 @@ function RegionalDashboardPage() {
           requests.push(
             fetch(`http://localhost:8080/api/production-records/region/${regionId}/weekly`)
           );
+        } else {
+          console.warn("[RegionalDash] regionId bulunamadı, grafik verisi çekilemiyor");
         }
 
         const [productionResponse, alarmResponse, facilityResponse, chartResponse] =
@@ -60,7 +63,9 @@ function RegionalDashboardPage() {
         setAlarms(regionalAlarms);
 
         if (chartResponse) {
-          setChartData(await chartResponse.json());
+          const rawChart = await chartResponse.json();
+          console.log("[RegionalDash] chart response:", rawChart);
+          setChartData(rawChart);
         }
       } catch (error) {
         console.error("Regional dashboard verileri alınamadı:", error);

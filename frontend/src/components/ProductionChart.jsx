@@ -50,9 +50,11 @@ function ProductionChart({ data, plantType = "GES" }) {
     predicted: Number(item.predicted  ?? item.predictedEnergy) || 0,
     actual:    Number(item.actual     ?? item.actualEnergy)     || 0,
   }));
+  console.log("raw data:", data);
+console.log("safeData:", safeData);
 
   return (
-    <div style={{ width: "100%", height: "320px", minWidth: 0, minHeight: 320 }}>
+    <div style={{ display: "block", width: "100%", height: "320px", minWidth: 0, minHeight: 320, overflow: "hidden" }}>
       <ResponsiveContainer width="100%" height="100%">
         <ComposedChart data={safeData} margin={{ top: 4, right: 4, left: -16, bottom: 0 }}>
           <defs>

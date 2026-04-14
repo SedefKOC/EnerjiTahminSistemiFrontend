@@ -49,7 +49,18 @@ function LoginPage() {
       const data = await response.json();
 
       if (data.success) {
-        localStorage.setItem("loggedInUser", JSON.stringify(data));
+        let userToStore = { ...data };
+        // facility.id ve region.id'yi almak için tam profili çek
+        try {
+          const profileRes = await fetch(`http://localhost:8080/api/users/${data.userId}`);
+          const profileData = await profileRes.json();
+          if (profileData.facility) userToStore.facility = profileData.facility;
+          if (profileData.region)   userToStore.region   = profileData.region;
+          console.log("[Login] user enriched:", userToStore);
+        } catch (e) {
+          console.warn("[Login] profil detayları alınamadı:", e);
+        }
+        localStorage.setItem("loggedInUser", JSON.stringify(userToStore));
 
         if (data.role === "TESIS_GOREVLISI") {
           navigate("/operator/dashboard");

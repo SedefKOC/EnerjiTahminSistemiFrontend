@@ -18,6 +18,7 @@ function OperatorDashboardPage() {
     const fetchData = async () => {
       try {
         const facilityId = user.facility?.id;
+        console.log("[OperatorDash] user.facility:", user.facility, "| facilityId:", facilityId);
         const requests = [
           fetch("http://localhost:8080/api/production-records"),
           fetch("http://localhost:8080/api/alarms"),
@@ -26,6 +27,8 @@ function OperatorDashboardPage() {
           requests.push(
             fetch(`http://localhost:8080/api/production-records/facility/${facilityId}/weekly`)
           );
+        } else {
+          console.warn("[OperatorDash] facilityId bulunamadı, grafik verisi çekilemiyor");
         }
 
         const [productionResponse, alarmResponse, chartResponse] = await Promise.all(requests);
@@ -45,7 +48,9 @@ function OperatorDashboardPage() {
         setAlarms(filteredAlarms);
 
         if (chartResponse) {
-          setChartData(await chartResponse.json());
+          const rawChart = await chartResponse.json();
+          console.log("[OperatorDash] chart response:", rawChart);
+          setChartData(rawChart);
         }
       } catch (error) {
         console.error("Dashboard verileri alınamadı:", error);

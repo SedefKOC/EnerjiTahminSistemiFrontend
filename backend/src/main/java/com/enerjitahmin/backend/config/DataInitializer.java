@@ -135,27 +135,33 @@ public class DataInitializer {
                         true));
             }
 
-            if (productionRecordRepository.count() == 0) {
-                Facility gesKonya1 = facilityRepository.findAll().stream()
-                        .filter(facility -> facility.getName().equals("GES Konya 1"))
-                        .findFirst()
-                        .orElse(null);
+            // Son 7 günde kayıt yoksa (sabit tarihli eski veri veya ilk çalışma) yeniden ekle
+            Facility gesKonya1 = facilityRepository.findAll().stream()
+                    .filter(facility -> facility.getName().equals("GES Konya 1"))
+                    .findFirst()
+                    .orElse(null);
 
-                if (gesKonya1 != null) {
+            if (gesKonya1 != null) {
+                LocalDate today = LocalDate.now();
+                java.util.List<ProductionRecord> recentRecords = productionRecordRepository
+                        .findByFacilityIdAndRecordDateBetweenOrderByRecordDateAsc(
+                                gesKonya1.getId(), today.minusDays(6), today);
+
+                if (recentRecords.isEmpty()) {
                     productionRecordRepository
-                            .save(new ProductionRecord(gesKonya1, LocalDate.of(2026, 3, 23), 120.0, 118.0));
+                            .save(new ProductionRecord(gesKonya1, today.minusDays(6), 120.0, 118.0));
                     productionRecordRepository
-                            .save(new ProductionRecord(gesKonya1, LocalDate.of(2026, 3, 24), 125.0, 121.0));
+                            .save(new ProductionRecord(gesKonya1, today.minusDays(5), 125.0, 121.0));
                     productionRecordRepository
-                            .save(new ProductionRecord(gesKonya1, LocalDate.of(2026, 3, 25), 130.0, 126.0));
+                            .save(new ProductionRecord(gesKonya1, today.minusDays(4), 130.0, 126.0));
                     productionRecordRepository
-                            .save(new ProductionRecord(gesKonya1, LocalDate.of(2026, 3, 26), 128.0, 110.0));
+                            .save(new ProductionRecord(gesKonya1, today.minusDays(3), 128.0, 110.0));
                     productionRecordRepository
-                            .save(new ProductionRecord(gesKonya1, LocalDate.of(2026, 3, 27), 135.0, 132.0));
+                            .save(new ProductionRecord(gesKonya1, today.minusDays(2), 135.0, 132.0));
                     productionRecordRepository
-                            .save(new ProductionRecord(gesKonya1, LocalDate.of(2026, 3, 28), 140.0, 95.0));
+                            .save(new ProductionRecord(gesKonya1, today.minusDays(1), 140.0, 95.0));
                     productionRecordRepository
-                            .save(new ProductionRecord(gesKonya1, LocalDate.of(2026, 3, 29), 138.0, 136.0));
+                            .save(new ProductionRecord(gesKonya1, today, 138.0, 136.0));
                 }
             }
 
